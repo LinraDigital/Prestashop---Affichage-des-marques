@@ -1,0 +1,135 @@
+/* ld_brands - styles de base, à affiner côté client (Julien) */
+
+/* --- Par défaut (défilement désactivé) : viewport/track transparents,      */
+/* le comportement d'origine (grille centrée qui passe à la ligne) reste    */
+/* inchangé.                                                                 */
+.ld-brands__viewport,
+.ld-brands__track {
+    display: contents;
+}
+
+.ld-brands__row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+@media (min-width: 992px) {
+    .ld-brands__row {
+        gap: 20px;
+    }
+}
+@media (min-width: 1200px) {
+    .ld-brands__row {
+        gap: 30px;
+    }
+}
+@media (min-width: 1400px) {
+    .ld-brands__row {
+        gap: 40px;
+    }
+}
+.ld-brands__item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+@media (max-width: 576px) {
+  .ld-brands:not(.ld-brands--scroll) .ld-brands__row .ld-brands__item:nth-child(n +4) {
+    display: none;
+  }
+}
+@media (max-width: 991px) {
+  .ld-brands:not(.ld-brands--scroll) .ld-brands__row .ld-brands__item:nth-child(n + 5) {
+    display: none;
+  }
+}
+.ld-brands__item img {
+    max-height: 150px;
+    width: auto;
+    /* filter: grayscale(100%); */
+    /* opacity: 0.6; */
+    /* transition: filter 0.2s ease, opacity 0.2s ease; */
+}
+@media (min-width: 768px) {
+    .ld-brands__item img {
+        max-height: 180px;
+    }
+}
+@media (min-width: 1200px) {
+    .ld-brands__item img {
+        max-height: 200px;
+    }
+}
+
+/* .ld-brands__item:hover img {
+    filter: grayscale(0%);
+    opacity: 1;
+} */
+
+/* ------------------------------------------------------------------ */
+/* Défilement horizontal actif, SANS boucle : simple bande défilable   */
+/* manuellement (souris/tactile), une seule rangée, pas de retour à la */
+/* ligne, pas de doublon (pas nécessaire sans animation).              */
+/* ------------------------------------------------------------------ */
+.ld-brands--scroll:not(.ld-brands--loop) .ld-brands__viewport {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 10px; /* place pour la scrollbar sans qu'elle colle aux logos */
+}
+.ld-brands--scroll:not(.ld-brands--loop) .ld-brands__track {
+    display: block;
+    width: max-content;
+}
+.ld-brands--scroll:not(.ld-brands--loop) .ld-brands__row {
+    flex-wrap: nowrap;
+    width: max-content;
+}
+.ld-brands--scroll:not(.ld-brands--loop) .ld-brands__row--dup {
+    display: none;
+}
+
+/* ------------------------------------------------------------------ */
+/* Défilement horizontal actif AVEC boucle : défilement automatique    */
+/* infini en CSS pur (deux rangées identiques mises bout à bout,       */
+/* translation de -50% de la largeur totale du "track" = exactement    */
+/* une rangée, ce qui rend la boucle invisible).                       */
+/* ------------------------------------------------------------------ */
+.ld-brands--loop .ld-brands__viewport {
+    display: block;
+    overflow: hidden;
+}
+.ld-brands--loop .ld-brands__track {
+    display: flex;
+    width: max-content;
+    animation-name: ldBrandsMarquee;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-duration: 30s; /* valeur de repli, remplacée en JS une fois la largeur réelle connue */
+}
+.ld-brands--loop .ld-brands__row,
+.ld-brands--loop .ld-brands__row--dup {
+    flex-wrap: nowrap;
+    flex-shrink: 0;
+}
+.ld-brands--loop:hover .ld-brands__track {
+    animation-play-state: paused;
+}
+@keyframes ldBrandsMarquee {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+/* Respecte les préférences d'accessibilité : pas d'animation si le visiteur
+   a demandé de réduire les mouvements dans son système. */
+@media (prefers-reduced-motion: reduce) {
+    .ld-brands--loop .ld-brands__track {
+        animation: none;
+    }
+}

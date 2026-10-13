@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<module>
+   <name>ld_brands</name>
+   <displayName><![CDATA[LD - Brands]]></displayName>
+   <version><![CDATA[2.1.0]]></version>
+   <description><![CDATA[Affiche les logos des marques (fabricants) PrestaShop actives sur la page d'accueil (nombre limité, configurable).]]></description>
+   <author><![CDATA[Linra Digital]]></author>
+   <tab><![CDATA[front_office_features]]></tab>
+   <is_configurable>1</is_configurable>
+   <need_instance>0</need_instance>
+   <limited_countries></limited_countries>
+</module>
